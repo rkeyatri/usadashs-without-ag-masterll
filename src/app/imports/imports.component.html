@@ -1,0 +1,148 @@
+<div class="wrapper">
+
+    <div class="col-sm-12 mt-2">
+        <div class="row">
+
+
+            <div class="col-sm-12">
+                <div class="card">
+                    <app-search-box (searchSubmit)="onSearchSubmit($event)"></app-search-box>
+                </div>
+                <div class="mt-4">
+                    <as-tabs (switchTab)="onSwitchTab($event)">
+                        <as-tab [for]="'shipments'" [title]="'Shipments'">
+                            <as-pager (goPage)="goToPage($event)" (goNext)="onNext()" (goPrev)="onPrev()" [pagesToShow]="5" [page]="pageIndex" [perPage]="pageSize" [count]="meta.total">
+                            </as-pager>
+                            <button (click)="toggle()">filter</button>
+                            <div class="card">
+                                <as-table class="table-holder" [records]="shipments" [columns]="importKeys"></as-table>
+                                <div *ngIf="!show" class="sidebar">
+                                    <div class="card">
+                                        <h5 class="card-header">Filter</h5>
+                                        <!-- <div>
+                                            <ul class="filter-list" *ngFor="let filter of shipmentFilters.hscode">
+                                                <li class="filter-item">
+                                                    <a href="javascript:void(0);">
+                                                        <input type="checkbox" [value]="filter.name" (click)="onChecked(filter.name, $event)"> {{ filter.name }} ({{ filter.total }})</a>
+                                                </li>
+                                            </ul>
+                                        </div> -->
+                                        <div *ngFor="let filter of shipmentFilters | keyvalue">
+                                            <h6 class="filter-title capitalize"><strong>    {{ filter.key }}</strong></h6>
+                                            <div class="filter">
+                                                <ul class="filter-list" *ngFor="let item of filter.value">
+                                                    <li class="filter-item">
+                                                        <a href="javascript:void(0);">
+                                                            <input type="checkbox" [value]="item.countryID" (change)="onChecked(item.key, $event)"> {{ item.name }} ({{ item.total }})</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </as-tab>
+                        <as-tab [for]="'Dashboard'" [title]="'Dashboard'">
+                            <div class="row mt-2">
+                                <div class="col-md-4">
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <div id="chart">
+
+                                                <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis" [dataLabels]="chartOptions.dataLabels" [grid]="chartOptions.grid" [stroke]="chartOptions.stroke" [title]="chartOptions.title"></apx-chart>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <div id="chart">
+
+                                                <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis" [dataLabels]="chartOptions.dataLabels" [grid]="chartOptions.grid" [stroke]="chartOptions.stroke" [title]="chartOptions.title"></apx-chart>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <div id="chart">
+
+                                                <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis" [dataLabels]="chartOptions.dataLabels" [grid]="chartOptions.grid" [stroke]="chartOptions.stroke" [title]="chartOptions.title"></apx-chart>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <div id="chart">
+
+                                                <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis" [dataLabels]="chartOptions.dataLabels" [grid]="chartOptions.grid" [stroke]="chartOptions.stroke" [title]="chartOptions.title"></apx-chart>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <div id="chart">
+
+                                                <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis" [dataLabels]="chartOptions.dataLabels" [grid]="chartOptions.grid" [stroke]="chartOptions.stroke" [title]="chartOptions.title"></apx-chart>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card mb-4">
+                                        <div class="card-body">
+                                            <div id="chart">
+
+                                                <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart" [xaxis]="chartOptions.xaxis" [dataLabels]="chartOptions.dataLabels" [grid]="chartOptions.grid" [stroke]="chartOptions.stroke" [title]="chartOptions.title"></apx-chart>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </as-tab>
+                        <as-tab [for]="'Importer Analysis'" [title]="'Importer Analysis'">
+                            <div class="card">Importer Analysi
+                                <div class="card-body">
+                                </div>
+                            </div>
+                        </as-tab>
+                        <as-tab [for]="'Exporter Analysis'" [title]="'Exporter Analysis'">
+                            <div class="card">Exporter Analysis
+                                <div class="card-body">
+                                </div>
+                            </div>
+                        </as-tab>
+                        <as-tab [for]="'Comparison'" [title]="'Comparison'">
+                            <div class="card">Comparison
+                                <div class="card-body">
+                                </div>
+                            </div>
+                        </as-tab>
+                        <as-tab [for]="'Importer & Exporter Analysis'" [title]="'Importer & Exporter Analysis'">
+                            <div class="card">Importer & Exporter Analysis
+                                <div class="card-body">
+                                </div>
+                            </div>
+                        </as-tab>
+                        <as-tab [for]="'Analysis Report'" [title]="'Analysis Report'">
+                            <div class="card">
+                                Analysis Report
+                                <div class="card-body">
+                                </div>
+                            </div>
+                        </as-tab>
+                    </as-tabs>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

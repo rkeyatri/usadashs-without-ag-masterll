@@ -1,0 +1,71 @@
+.wrapper {
+    padding: 10px 15px;
+    .sidebar {
+        h6 {
+            padding: 7px 12px;
+            margin-bottom: 0px;
+        }
+        li a {
+            padding-left: 4px;
+            color: #000000;
+            font-size: 13px;
+            text-decoration: none;
+        }
+    }
+}
+
+.sidebar {
+    position: absolute;
+    top: 1px;
+    right: 0px;
+    display: block;
+    margin: 0 0 30px;
+    min-height: 50vh;
+    max-height: 55vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin: 0 0 15px;
+}
+
+filter .card {
+    position: relative;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: none;
+    border-radius: .25rem;
+    box-shadow: 0px 2px 4px #cccccc87;
+}
+
+button.min,
+.button.min {
+    height: 30px;
+    line-height: 30px;
+    padding: 0 10px;
+    margin: 0 1px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    display: inline-block !important;
+}
+
+.povit {
+    width: 250px;
+    position: absolute;
+    right: 0px;
+    min-height: 300px;
+    z-index: 10;
+    background-color: #ffffff;
+    top: 100px;
+    box-shadow: 0px 3px 4px #ccc;
+}
+
+#chart {
+    max-width: 650px;
+    margin: 35px auto;
+}
