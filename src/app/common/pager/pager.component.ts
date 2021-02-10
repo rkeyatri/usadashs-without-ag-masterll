@@ -22,6 +22,7 @@ export class PagerComponent {
         return ((this.perPage * this.page) - this.perPage) + 1;
     }
 
+
     getMax(): number {
         let max = this.perPage * this.page;
         if (max > this.count) {

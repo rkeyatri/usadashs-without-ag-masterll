@@ -4,7 +4,7 @@
             <!-- Default unchecked -->
 
             <th><input type="checkbox" [(ngModel)]="isAllSelected" (change)="masterToggle();" /></th>
-            <th *ngFor="let map of columnMaps"> {{ map.header }}</th>
+            <th *ngFor="let map of columnMaps "> {{ map.header }}</th>
 
         </tr>
     </thead>

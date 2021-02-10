@@ -1,7 +1,6 @@
 import {ColumnLayout} from '../models/columns.layout';
 export const IMPORT_COLS: ColumnLayout[] = [
-    {
-        key: 'date',
+    {   key: 'date',
         header: 'Date'
     },{
         key: 'consignee_Name',

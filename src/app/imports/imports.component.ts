@@ -6,8 +6,8 @@ import { map } from 'rxjs/operators';
 import { DataService, AlertService } from '../services';
 import { Import, MetaData, GraphModel } from '../models';
 import { IMPORT_COLS } from '../helpers/import.columns';  
-import { isObject } from 'util';
-import { stringify } from '@angular/compiler/src/util';
+import { ApexAxisChartSeries, ApexChart, ApexTitleSubtitle, ChartComponent } from 'ng-apexcharts';
+ 
 
 @Component({
     selector: 'app-imports',
@@ -17,180 +17,164 @@ import { stringify } from '@angular/compiler/src/util';
 
 export class ImportsComponent implements OnInit {
  
-  
+
     importKeys = IMPORT_COLS;
     params: object;
     shipments: Import[]; 
     meta: MetaData;
     graphdata: GraphModel;
-    GraphModel:any
-    compaeData: [];
-    shipmentFilters = []; 
-    checkedItems: any = [];
+    GraphModel:any;
+    shipmentFilters:[];
+    filterCountry:any;  
+    filterHscode:any; 
+    filterPort:any; 
+    filterUnit:any; 
+    selectedhscode:string[];
+    selectedItems:string [];
     coun:GraphModel[];
     pageIndex = 1;
     pageSize = 20; 
     viewPort = [1270, 550];
     viewPiePort = [1200, 500];
     formData: any ;
-    show:boolean=true;
-   
-       chartOptions;    constructor(
+    countryTotal:[];
+    country:[];
+    show:boolean=true; 
+       chartOptions;  
+        constructor(
             private router: Router,
             private route: ActivatedRoute,
             private alertService: AlertService,
             private ds: DataService
-        ) { 
-        
-      this.chartOptions = {
-        series: [
-          {
-            name: "Desktops",
-            data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-          }
-        ],
-        chart: {
-          height: 350,
-          type: "bar",
-          zoom: {
-            enabled: false
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        stroke: {
-          curve: "straight"
-        },
-        title: {
-          text: "Jan",
-          align: "left"
-        },
-        grid: {
-          row: {
-            colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
-            opacity: 0.5
-          }
-        },
-        xaxis: {
-          categories: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep"
-          ]
+        ) {  
+          this.chartOptions = {
+            series: [
+              {
+                name: "Desktops",
+                data:this.countryTotal 
+              }
+            ],
+            chart: {
+              height: 350,
+              type: "line",
+              zoom: {
+                enabled: false
+              }
+            },
+            dataLabels: {
+              enabled: false
+            },
+            stroke: {
+              curve: "straight"
+            },
+            title: {
+              text: "Product Trends by Month",
+              align: "left"
+            },
+            grid: {
+              row: {
+                colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+                opacity: 0.5
+              }
+            },
+            xaxis: this.country           
+             
+          };
+       
         }
-      }; 
-    }
+  
 
     toggle(){
       this.show=!this.show;
-    }
-    
-    //   var checkboxSelection = function (params) {
-    //     return params.columnApi.getRowGroupColumns().length === 0;
-    //   };
-    //   var headerCheckboxSelection = function (params) {
-    //     return params.columnApi.getRowGroupColumns().length === 0;
-    //   };
-    //  }
- 
-  
+    } 
     ngOnInit() {
         const urlParams = combineLatest(
             this.route.params,
             this.route.queryParams,
             (params, queryParams) => ({ ...params, ...queryParams})
+            
         );
 
         urlParams.subscribe(routeParams => {
             this.params = routeParams;
             this.params['mode'] = 'import'; 
             this.searchData(this.params, true);
-            this.onChecked(this.params, true);         
+            this.selectedItems = new Array<string>();  
+            this.selectedhscode = new Array<string>();  
+                
         });
+        // this.selectedItems = new Array<string>();  
+        // this.selectedhscode = new Array<string>();  
+        // this.countrychart();
     }
- 
-    getGraph(params:object){
-      this.ds.getGraph(params)
-      .pipe(map(data=>data))
-      .subscribe(
-        data =>{
-         this.GraphModel=data;
-          this.coun= data.countryGraphas 
-        }
-      )
-    }
+  
     onSearchSubmit(form: any){
       const searchFormData = form.value;  
       console.log(this.formData)
       if(searchFormData.mode === 'imports') { 
           this.router.navigate(['/imports'], { queryParams: this.getFormParams(searchFormData)});
-        
-          
       } 
+    }  
+
+    onChecked(e: any, value: any, countryID: any) {
+    if (e.target.checked) {
+      console.log(value + "Chechked");
+      this.selectedItems.push(value);
+    } else {
+      console.log(value + "Unchechked");
+      this.selectedItems = this.selectedItems.filter(m => m != value);
     }
-    onChecked(key: any, event: any ) {
-      let { checked, value} = event.target;
-      if (checked) {
-        this.checkedItems.push(value); 
-        console.log(this.checkedItems)
-      } else {
-        let index = this.checkedItems.indexOf(value);
-        if (index !== -1) this.checkedItems.splice(index, 1);
-        console.log(this.checkedItems)
-      }   
-       this.getFormParams;
-      this.params[key] = value;
-      this.pageIndex = this.pageIndex;
-      this.pageSize = this.pageSize; 
-       const qParams: object = {};
+    console.log(this.selectedItems);
+    console.log(countryID)
+    let filtterValue = this.selectedItems.join()
+    this.params[countryID] = filtterValue;
+    this.pageIndex = 1;
+    this.ds.getImportData(this.params)
+      .subscribe(
+        ({ imports, meta }) => {
+          console.log(imports)
+          if (imports != null) {
+            this.shipments = imports;
+            this.meta = meta;
+            console.log(this.meta)
+          } else {
+            alert('Null');
+          }
+          window.scroll(0, 320);
+        },
+      )
 
-      console.log(this.searchData)
-      qParams[value] = value;
-      let s= JSON.stringify(this.params)
-      let v =JSON.parse(s)
-      alert(v)
-      this.searchData(this.params, true);
-      // console.log(qParams) 
-     const data= this.checkedItems;
-      console.log(this.searchData)
-      qParams[value] = value;
-      console.log(qParams)
+  } 
 
-       this.searchData(this.checkedItems, true);  
-        const filterList = data + '&countryID=' + this.checkedItems ;
-      //alert(filterList)        
-      let lis= JSON.parse(filterList)
-      //  this.ds.getImportData(params: object)
-      //  searchData(params: object, updateFilter?: boolean) { 
-          this.ds.getImportData(lis)
-           .subscribe(
-               ({ imports, meta }) => {
-                   console.log(imports)
-                   if (imports != null) { 
-                        this.shipments=imports; 
-                       this.meta = meta;
-                        console.log(this.meta)
-                   } else {
-                       alert('Null');
-                   }
-                   window.scroll(0, 320);
-               },
-           )
-
-      // const qParams: object = [];
-      // console.log(this.searchData)
-      // qParams[value] = value;
-      // console.log(qParams)
-              }
-
-   
+              onCheckedhs(e: any, value:any, hscodeID:any) { 
+                if (e.target.checked) {
+                  console.log(value + "Chechked"); 
+                  this.selectedhscode.push(value);
+                } else {
+                  console.log(value + "Unchechked");
+                  this.selectedhscode =this.selectedhscode.filter(m=>m!=value);
+                }  
+                console.log(this.selectedItems); 
+                console.log(hscodeID)
+                let filtterValue=this.selectedhscode.join()
+                this.params[hscodeID] = filtterValue;
+                this.pageIndex = 1;    
+                    this.ds.getImportData(this.params)
+                     .subscribe(
+                         ({ imports, meta }) => {
+                             console.log(imports)
+                             if (imports != null) { 
+                                  this.shipments=imports; 
+                                 this.meta = meta;
+                                  console.log(this.meta)
+                             } else {
+                                 alert('Null');
+                             }
+                             window.scroll(0, 320);
+                         },
+                     )
+           
+                        }
     getFormParams(formData: object){
         const formParams = {};
         Object.entries(formData).forEach(
@@ -213,193 +197,25 @@ export class ImportsComponent implements OnInit {
     //     let index = this.checkedItems.indexOf(value);
     //     if (index !== -1) this.checkedItems.splice(index, 1);
     //     console.log(this.checkedItems)
-    //   }
-    
-    // }
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    //   } 
+    // } 
+     
     onSwitchTab(tab: any) {
-        // if (tab.for === 'charts') {
-        //     this.ds.getImportCharts(this.params)
-        //     .pipe(
-        //         map(
-        //             data =>  data[0]
-        //         )
-        //     )
-        //     .subscribe(
-        //         (data) => {
-        //             this.graphdata = data;
-        //         }
-        //     );
-        // }
-        if(tab.for === 'comparision'){
-            /*
-            this.compaeData = [
-                {
-                  "name": "Montenegro",
-                  "series": [
-                    {
-                      "value": 4501,
-                      "name": "2016-09-22T17:36:27.541Z"
-                    },
-                    {
-                      "value": 2032,
-                      "name": "2016-09-21T18:12:46.985Z"
-                    },
-                    {
-                      "value": 6929,
-                      "name": "2016-09-18T09:58:35.224Z"
-                    },
-                    {
-                      "value": 3650,
-                      "name": "2016-09-18T21:18:02.305Z"
-                    },
-                    {
-                      "value": 4792,
-                      "name": "2016-09-13T02:57:23.056Z"
-                    }
-                  ]
-                },
-                {
-                  "name": "Cambodia",
-                  "series": [
-                    {
-                      "value": 5993,
-                      "name": "2016-09-22T17:36:27.541Z"
-                    },
-                    {
-                      "value": 4032,
-                      "name": "2016-09-21T18:12:46.985Z"
-                    },
-                    {
-                      "value": 6724,
-                      "name": "2016-09-18T09:58:35.224Z"
-                    },
-                    {
-                      "value": 5023,
-                      "name": "2016-09-18T21:18:02.305Z"
-                    },
-                    {
-                      "value": 5763,
-                      "name": "2016-09-13T02:57:23.056Z"
-                    }
-                  ]
-                },
-                {
-                  "name": "Bahamas",
-                  "series": [
-                    {
-                      "value": 6671,
-                      "name": "2016-09-22T17:36:27.541Z"
-                    },
-                    {
-                      "value": 3895,
-                      "name": "2016-09-21T18:12:46.985Z"
-                    },
-                    {
-                      "value": 2223,
-                      "name": "2016-09-18T09:58:35.224Z"
-                    },
-                    {
-                      "value": 4317,
-                      "name": "2016-09-18T21:18:02.305Z"
-                    },
-                    {
-                      "value": 3959,
-                      "name": "2016-09-13T02:57:23.056Z"
-                    }
-                  ]
-                },
-                {
-                  "name": "French Southern Territories",
-                  "series": [
-                    {
-                      "value": 5375,
-                      "name": "2016-09-22T17:36:27.541Z"
-                    },
-                    {
-                      "value": 4933,
-                      "name": "2016-09-21T18:12:46.985Z"
-                    },
-                    {
-                      "value": 2171,
-                      "name": "2016-09-18T09:58:35.224Z"
-                    },
-                    {
-                      "value": 6742,
-                      "name": "2016-09-18T21:18:02.305Z"
-                    },
-                    {
-                      "value": 6318,
-                      "name": "2016-09-13T02:57:23.056Z"
-                    }
-                  ]
-                },
-                {
-                  "name": "Estonia",
-                  "series": [
-                    {
-                      "value": 4523,
-                      "name": "2016-09-22T17:36:27.541Z"
-                    },
-                    {
-                      "value": 4272,
-                      "name": "2016-09-21T18:12:46.985Z"
-                    },
-                    {
-                      "value": 5032,
-                      "name": "2016-09-18T09:58:35.224Z"
-                    },
-                    {
-                      "value": 2783,
-                      "name": "2016-09-18T21:18:02.305Z"
-                    },
-                    {
-                      "value": 4880,
-                      "name": "2016-09-13T02:57:23.056Z"
-                    }
-                  ]
-                }
-              ];
-              */
-            // this.ds.getImportComparision(this.params)
-            // .subscribe(
-            //     (data) => {
-            //         this.compaeData = data;
-            //     }
-            // );
-        }
+        if(tab.for === 'Dashboard'){
+          this.ds.getGraph(this.params || this.onCheckedhs)
+      .pipe(map(res=>res))
+      .subscribe(
+        res =>{
+      this.GraphModel = res;
+      this.coun = res.countryGraphas;
+      // console.log(this.coun);
+      //  this.country = res.countryGraphas;
+      this.country = res['countryGraphas'].map(res => res.name);
+      this.countryTotal = res['countryGraphas'].map(res => res.total);     
+      console.log(this.country);
+      console.log(this.countryTotal);})
     }
+  }
     searchData(params: object, updateFilter?: boolean) {
       params['pageIndex'] = this.pageIndex;
       params['pageSize'] = this.pageSize;
@@ -427,33 +243,59 @@ export class ImportsComponent implements OnInit {
           .pipe(map(data => data))
           .subscribe(
               data => {
-                  this.shipmentFilters = data; 
-                  console.log(this.shipmentFilters)
+                
+                //  this.filterHscode =data.hscode; 
+                //  this.filterPort =data.port; 
+                //  this.filterUnit =data.unit; 
+                //  this.shipmentFilters=data.country;
+                 const list = data.country;
+                 const hsCode=data.hscode;
+                 const port=data.port;
+                 const unit=data.unit;
+
+                 const country = {CountryID:list};  
+                 this.filterCountry = country; 
+                 const hscode = {hscodeID:hsCode};  
+                 this.filterHscode = hscode; 
+                 const Port = {portID:port};  
+                 this.filterPort = Port;
+                 const Unit = {unitID:unit};  
+                 this.filterPort = Unit;  
+                 // console.log(obj);
+                  //console.log(element);
               }
           )
       }
      
   }
   
-  
-    filterData(name: any, value: any) {
-        // let { checked, value} = event.target;
-        // if (checked) {
-        //       this.checkedItems.push(value); 
-        //       console.log(this.checkedItems)
-        //     } else {
-        //       let index = this.checkedItems.indexOf(value);
-        //       if (index !== -1) this.checkedItems.splice(index, 1);
-        //       console.log(this.checkedItems)
-        //     }
+  // onChecked(e: any, value:string, key:any) {
+  //   //let { checked, value} = event.target;
+  //   if (e.target.checked) {
+  //     console.log(value + "Chechked")
+  //      this.selectedItems.push(value);
+  //   } else {
+  //     console.log(value + "Unchechked");
+  //     this.selectedItems =this.selectedItems.filter(m=>m!=value);
+  //   } 
+    
+  //   console.log(this.selectedItems);}
+    // filterData(e: any, name: any, value: any) {
+    //   if (e.target.checked) {
+    //     console.log(value + "Chechked")
+    //      this.selectedItems.push(value);
+    //   } else {
+    //     console.log(value + "Unchechked");
+    //     this.selectedItems =this.selectedItems.filter(m=>m!=value);
+    //   } 
 
-        this.params[name] = value;
-        this.pageIndex = 1;
-        this.searchData(this.checkedItems, true);
-        const qParams: object = [];
-        qParams[name] = value;
-        this.router.navigate([], { queryParams: qParams, queryParamsHandling: 'merge' });
-    }
+    //     this.params[name] = value;
+    //     this.pageIndex = 1;
+    //    // this.searchData(this.checkedItems, true);
+    //     const qParams: object = {};
+    //     qParams[name] = value;
+    //     this.router.navigate([], { queryParams: qParams, queryParamsHandling: 'merge' });
+    // }
     goToPage(n: number): void {
         this.pageIndex = n;
         this.searchData(this.params);
@@ -472,4 +314,3 @@ export class ImportsComponent implements OnInit {
         this.viewPiePort = [width - 120, 550];
     }
 }
- 

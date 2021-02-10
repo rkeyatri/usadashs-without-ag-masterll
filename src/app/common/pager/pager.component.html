@@ -5,6 +5,7 @@
             <!-- <span class="page-counts pl-4">{{ getMin() }} - {{ getMax() }} </span> -->
         </div>
         <div class="numbers right">
+
             <span class="page-counts pl-4">{{ getMin() }} - {{ getMax() }}  of Total {{ count }} </span>
             <button class="link button-clear min" (click)="onPrev()" [disabled]="page === 1 || loading" [ngClass]="{ 'disabled': page === 1 || loading }">&lt;</button>
             <button *ngFor="let pageNum of getPages()" (click)="onPage(pageNum)" [ngClass]="{'active': pageNum === page, 'disabled': loading}" class="button-clear min">{{ pageNum }}</button>

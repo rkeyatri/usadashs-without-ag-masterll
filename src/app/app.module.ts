@@ -11,12 +11,9 @@ import { LoginComponent } from './login/login.component';
 import { MainComponent } from './layouts/main/main.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './layouts/header/header.component';
-import { ImportsComponent } from './imports/imports.component';  
-import { AgGridModule } from 'ag-grid-angular'; 
-import   'ag-grid-enterprise';
- import { NgApexchartsModule } from 'ng-apexcharts';
- 
-//import { AgGridModule } from 'ag-grid-community/angular';
+import { ImportsComponent } from './imports/imports.component';   
+import { NgApexchartsModule } from 'ng-apexcharts'; 
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -36,8 +33,7 @@ import   'ag-grid-enterprise';
         BrowserModule,
         AppRoutingModule, 
         NgxChartsModule, 
-         NgApexchartsModule,
-        AgGridModule.withComponents([ImportsComponent])
+         NgApexchartsModule  
     ],
     providers: [
     ],
