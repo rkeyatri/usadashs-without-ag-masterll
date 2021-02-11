@@ -12,10 +12,11 @@ import { AlertComponent } from './alert/alert.component';
 import { TabsComponent } from './tabs/tabs.component';
 import { TabComponent } from './tab/tab.component';
 import { PagerComponent } from './pager/pager.component';
-import { SearchBoxComponent } from './search/search-box.component';
-
+import { SearchBoxComponent } from './search/search-box.component'; 
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { DashboardComponent } from './dashboard/dashboard.component'; 
 @NgModule({
-    declarations: [AsTableComponent, ReplacePipe, AlertComponent, TabsComponent, TabComponent, PagerComponent, SearchBoxComponent],
+    declarations: [AsTableComponent, ReplacePipe, AlertComponent, TabsComponent, TabComponent, PagerComponent, SearchBoxComponent, DashboardComponent,],
     imports: [
         AngularFontAwesomeModule,
         CommonModule,
@@ -30,11 +31,12 @@ import { SearchBoxComponent } from './search/search-box.component';
         TabsComponent,
         AlertComponent,
         PagerComponent,
+        NgxChartsModule,
         AngularFontAwesomeModule,
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientModule
+        HttpClientModule 
     ],
     providers: [
         AuthService,

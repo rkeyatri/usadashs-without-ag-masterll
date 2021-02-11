@@ -1,23 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators'; 
-
+import { map } from 'rxjs/operators';  
 import { DataService, AlertService } from '../services';
 import { Import, MetaData, GraphModel } from '../models';
-import { IMPORT_COLS } from '../helpers/import.columns';  
-import { ApexAxisChartSeries, ApexChart, ApexTitleSubtitle, ChartComponent } from 'ng-apexcharts';
+import { IMPORT_COLS } from '../helpers/import.columns'; 
  
-
+ 
 @Component({
     selector: 'app-imports',
     templateUrl: './imports.component.html',
     styleUrls: ['./imports.component.scss']
 })
 
-export class ImportsComponent implements OnInit {
- 
-
+export class ImportsComponent implements OnInit {  
     importKeys = IMPORT_COLS;
     params: object;
     shipments: Import[]; 
@@ -37,53 +33,21 @@ export class ImportsComponent implements OnInit {
     viewPort = [1270, 550];
     viewPiePort = [1200, 500];
     formData: any ;
-    countryTotal:[];
-    country:[];
-    show:boolean=true; 
-       chartOptions;  
+    country:any;
+    countrygraph:object;
+    label:any[];
+    value:string;
+    show:boolean=true;  
+  
         constructor(
             private router: Router,
             private route: ActivatedRoute,
             private alertService: AlertService,
             private ds: DataService
         ) {  
-          this.chartOptions = {
-            series: [
-              {
-                name: "Desktops",
-                data:this.countryTotal 
-              }
-            ],
-            chart: {
-              height: 350,
-              type: "line",
-              zoom: {
-                enabled: false
-              }
-            },
-            dataLabels: {
-              enabled: false
-            },
-            stroke: {
-              curve: "straight"
-            },
-            title: {
-              text: "Product Trends by Month",
-              align: "left"
-            },
-            grid: {
-              row: {
-                colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
-                opacity: 0.5
-              }
-            },
-            xaxis: this.country           
-             
-          };
-       
-        }
-  
-
+           
+        } 
+        
     toggle(){
       this.show=!this.show;
     } 
@@ -106,6 +70,7 @@ export class ImportsComponent implements OnInit {
         // this.selectedItems = new Array<string>();  
         // this.selectedhscode = new Array<string>();  
         // this.countrychart();
+ 
     }
   
     onSearchSubmit(form: any){
@@ -186,36 +151,34 @@ export class ImportsComponent implements OnInit {
         );
         return formParams;
     }
-  
-    // onChecked(name: any, event: any) {
-    //   let { checked, value } = event.target;
-    //   if (checked) {
-    //     this.checkedItems.push(value);
-       
-    //     console.log(this.checkedItems)
-    //   } else {
-    //     let index = this.checkedItems.indexOf(value);
-    //     if (index !== -1) this.checkedItems.splice(index, 1);
-    //     console.log(this.checkedItems)
-    //   } 
-    // } 
-     
+   
     onSwitchTab(tab: any) {
         if(tab.for === 'Dashboard'){
-          this.ds.getGraph(this.params || this.onCheckedhs)
+          this.ds.getGraph(this.params)
       .pipe(map(res=>res))
       .subscribe(
         res =>{
-      this.GraphModel = res;
-      this.coun = res.countryGraphas;
-      // console.log(this.coun);
-      //  this.country = res.countryGraphas;
-      this.country = res['countryGraphas'].map(res => res.name);
-      this.countryTotal = res['countryGraphas'].map(res => res.total);     
-      console.log(this.country);
-      console.log(this.countryTotal);})
-    }
+          let countrygr=res.countryGraphas
+          let country = res['countryGraphas'].map(res => res.name);
+          let counTotal = res['countryGraphas'].map(res => res.total); 
+         
+          // var arrSales = [];
+          // for (var i in countrygr) {
+          //     var count = new Array(countrygr[i].name, countrygr[i].total);
+          //     arrSales.push(count);
+          // }
+          // this.label= arrSales ; 
+      //this.country = [{'label': label}, {'value':value}];
+          
+     
+    })
   }
+}
+
+
+
+  
+
     searchData(params: object, updateFilter?: boolean) {
       params['pageIndex'] = this.pageIndex;
       params['pageSize'] = this.pageSize;
@@ -238,21 +201,16 @@ export class ImportsComponent implements OnInit {
               alert('No records found')
           }
       );
+
       if(updateFilter) {
           this.ds.getImportFilters(params)
           .pipe(map(data => data))
           .subscribe(
-              data => {
-                
-                //  this.filterHscode =data.hscode; 
-                //  this.filterPort =data.port; 
-                //  this.filterUnit =data.unit; 
-                //  this.shipmentFilters=data.country;
+              data => { 
                  const list = data.country;
                  const hsCode=data.hscode;
                  const port=data.port;
                  const unit=data.unit;
-
                  const country = {CountryID:list};  
                  this.filterCountry = country; 
                  const hscode = {hscodeID:hsCode};  
@@ -260,42 +218,12 @@ export class ImportsComponent implements OnInit {
                  const Port = {portID:port};  
                  this.filterPort = Port;
                  const Unit = {unitID:unit};  
-                 this.filterPort = Unit;  
-                 // console.log(obj);
-                  //console.log(element);
+                 this.filterPort = Unit;   
               }
           )
       }
      
-  }
-  
-  // onChecked(e: any, value:string, key:any) {
-  //   //let { checked, value} = event.target;
-  //   if (e.target.checked) {
-  //     console.log(value + "Chechked")
-  //      this.selectedItems.push(value);
-  //   } else {
-  //     console.log(value + "Unchechked");
-  //     this.selectedItems =this.selectedItems.filter(m=>m!=value);
-  //   } 
-    
-  //   console.log(this.selectedItems);}
-    // filterData(e: any, name: any, value: any) {
-    //   if (e.target.checked) {
-    //     console.log(value + "Chechked")
-    //      this.selectedItems.push(value);
-    //   } else {
-    //     console.log(value + "Unchechked");
-    //     this.selectedItems =this.selectedItems.filter(m=>m!=value);
-    //   } 
-
-    //     this.params[name] = value;
-    //     this.pageIndex = 1;
-    //    // this.searchData(this.checkedItems, true);
-    //     const qParams: object = {};
-    //     qParams[name] = value;
-    //     this.router.navigate([], { queryParams: qParams, queryParamsHandling: 'merge' });
-    // }
+  } 
     goToPage(n: number): void {
         this.pageIndex = n;
         this.searchData(this.params);
