@@ -11,9 +11,9 @@ import { MainComponent } from './layouts/main/main.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './layouts/header/header.component';
 import { ImportsComponent } from './imports/imports.component';   
-import { NgApexchartsModule } from 'ng-apexcharts'; 
-
-
+import { NgApexchartsModule } from 'ng-apexcharts';  
+import { DashboardComponent } from './dashboard/dashboard.component';  
+import { GoogleChartModule } from './angular-google-chart/google-chart.module';
 @NgModule({
     declarations: [
         AppComponent,
@@ -21,17 +21,17 @@ import { NgApexchartsModule } from 'ng-apexcharts';
         MainComponent,
         HomeComponent, 
         HeaderComponent,
-        ImportsComponent
-    ],
-  
-      
+        ImportsComponent,
+        DashboardComponent
+    ], 
     imports: [
         CoreModule,  
         BrowserAnimationsModule,
         BrowserModule,
         AppRoutingModule, 
         NgxChartsModule, 
-         NgApexchartsModule  
+        NgApexchartsModule, 
+        GoogleChartModule
     ],
     providers: [
     ],

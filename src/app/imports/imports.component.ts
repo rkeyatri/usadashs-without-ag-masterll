@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { DataService, AlertService } from '../services';
 import { Import, MetaData, GraphModel } from '../models';
 import { IMPORT_COLS } from '../helpers/import.columns'; 
- 
+import { GoogleChartInterface } from 'ng2-google-charts';
  
 @Component({
     selector: 'app-imports',
@@ -34,18 +34,26 @@ export class ImportsComponent implements OnInit {
     viewPiePort = [1200, 500];
     formData: any ;
     country:any;
-    countrygraph:object;
-    label:any[];
+    countrygraph:any;
+    label:any;
     value:string;
     show:boolean=true;  
-  
+    dataMap : any;
+
         constructor(
             private router: Router,
             private route: ActivatedRoute,
             private alertService: AlertService,
             private ds: DataService
         ) {  
-           
+          this.dataMap = {};
+          let loadData = function(_data){
+            return new Promise(function(resolve,reject){
+              resolve(_data);
+            });
+            
+          } 
+          
         } 
         
     toggle(){
@@ -70,7 +78,7 @@ export class ImportsComponent implements OnInit {
         // this.selectedItems = new Array<string>();  
         // this.selectedhscode = new Array<string>();  
         // this.countrychart();
- 
+        //this.pieChart
     }
   
     onSearchSubmit(form: any){
@@ -158,27 +166,23 @@ export class ImportsComponent implements OnInit {
       .pipe(map(res=>res))
       .subscribe(
         res =>{
-          let countrygr=res.countryGraphas
-          let country = res['countryGraphas'].map(res => res.name);
-          let counTotal = res['countryGraphas'].map(res => res.total); 
-         
-          // var arrSales = [];
-          // for (var i in countrygr) {
-          //     var count = new Array(countrygr[i].name, countrygr[i].total);
-          //     arrSales.push(count);
-          // }
-          // this.label= arrSales ; 
-      //this.country = [{'label': label}, {'value':value}];
-          
-     
-    })
-  }
+        let countrygr=res.countryGraphas;
+        var arrSales = [];
+        for (var i in countrygr) {
+            var country = new Array(countrygr[i].name, countrygr[i].total);
+            arrSales.push(country);
+        }
+        let LINE_DATA = this.countrygraph
+      this.countrygraph=arrSales; 
+      console.log(this.countrygraph)   
+    })    
+  }  
 }
-
-
-
-  
-
+// public pieChart: GoogleChartInterface = { 
+//   chartType:'PieChart',
+//   dataTable:this.countrygraph,  
+//   options: {'title': 'Country'}  
+// } 
     searchData(params: object, updateFilter?: boolean) {
       params['pageIndex'] = this.pageIndex;
       params['pageSize'] = this.pageSize;
@@ -241,4 +245,6 @@ export class ImportsComponent implements OnInit {
         this.viewPort = [width - 110, 550];
         this.viewPiePort = [width - 120, 550];
     }
+     
+  
 }

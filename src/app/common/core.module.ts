@@ -13,16 +13,16 @@ import { TabsComponent } from './tabs/tabs.component';
 import { TabComponent } from './tab/tab.component';
 import { PagerComponent } from './pager/pager.component';
 import { SearchBoxComponent } from './search/search-box.component'; 
-import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { DashboardComponent } from './dashboard/dashboard.component'; 
+import { NgxChartsModule } from '@swimlane/ngx-charts';  
+
 @NgModule({
-    declarations: [AsTableComponent, ReplacePipe, AlertComponent, TabsComponent, TabComponent, PagerComponent, SearchBoxComponent, DashboardComponent,],
+    declarations: [AsTableComponent, ReplacePipe, AlertComponent, TabsComponent, TabComponent, PagerComponent, SearchBoxComponent],
     imports: [
         AngularFontAwesomeModule,
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientModule
+        HttpClientModule 
     ],
     exports: [
         AsTableComponent,

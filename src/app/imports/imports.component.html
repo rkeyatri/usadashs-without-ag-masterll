@@ -62,53 +62,15 @@
                         </as-tab>
                         <as-tab [for]="'Dashboard'" [title]="'Dashboard'">
                             <div class="row mt-2">
-                                <div class="col-md-4">
-                                    <div class="card mb-4">
-                                        <div class="card-body">
+                                <app-dashboard></app-dashboard>
+                                <google-chart [chartType]="'PieChart'" [dataPromise]="dataMap['PIE_DATA']" [options]="dataMap['PIE_OPTIONS']"></google-chart>
 
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card mb-4">
-                                        <div class="card-body">
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card mb-4">
-                                        <div class="card-body">
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card mb-4">
-                                        <div class="card-body">
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card mb-4">
-                                        <div class="card-body">
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card mb-4">
-                                        <div class="card-body">
-
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </as-tab>
                         <as-tab [for]="'Importer Analysis'" [title]="'Importer Analysis'">
                             <div class="card">Importer Analysi
                                 <div class="card-body">
+
                                 </div>
                             </div>
                         </as-tab>
