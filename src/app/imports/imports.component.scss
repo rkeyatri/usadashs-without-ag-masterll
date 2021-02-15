@@ -69,3 +69,43 @@ button.min,
     max-width: 650px;
     margin: 35px auto;
 }
+
+.card {
+    margin-bottom: 24px;
+}
+
+.sm-table {
+    max-height: 90px !important;
+    min-height: 200px !important;
+    overflow-y: scroll !important;
+    overflow-x: hidden;
+    thead tr th {
+        border: none;
+        white-space: unset;
+        position: sticky;
+        top: 0;
+        border-right: 1px solid #ffffff;
+    }
+    &::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(120, 130, 140, 0.13);
+        background-color: #F5F5F5;
+    }
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+        background-color: #ffb22b;
+    }
+    &::-webkit-scrollbar-thumb {
+        background-color: #ffb22b;
+        border-radius: 5px;
+    }
+}
+
+.card {
+    position: relative !important;
+     :host>>>ngx-skeleton-loader {
+        position: absolute !important;
+        top: 50px !important;
+        left: 0px !important;
+    }
+}

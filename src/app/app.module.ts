@@ -4,16 +4,15 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './routing.module';
 import { CoreModule } from './common/core.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxChartsModule } from '@swimlane/ngx-charts'; 
+import { NgxChartsModule } from '@swimlane/ngx-charts';  
 import { AppComponent } from './app.component';  
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './layouts/main/main.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './layouts/header/header.component';
 import { ImportsComponent } from './imports/imports.component';   
-import { NgApexchartsModule } from 'ng-apexcharts';  
-import { DashboardComponent } from './dashboard/dashboard.component';  
-import { GoogleChartModule } from './angular-google-chart/google-chart.module';
+import { NgApexchartsModule } from 'ng-apexcharts';   
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';  
 @NgModule({
     declarations: [
         AppComponent,
@@ -21,8 +20,7 @@ import { GoogleChartModule } from './angular-google-chart/google-chart.module';
         MainComponent,
         HomeComponent, 
         HeaderComponent,
-        ImportsComponent,
-        DashboardComponent
+        ImportsComponent 
     ], 
     imports: [
         CoreModule,  
@@ -30,8 +28,8 @@ import { GoogleChartModule } from './angular-google-chart/google-chart.module';
         BrowserModule,
         AppRoutingModule, 
         NgxChartsModule, 
-        NgApexchartsModule, 
-        GoogleChartModule
+        NgApexchartsModule,
+        NgxSkeletonLoaderModule 
     ],
     providers: [
     ],

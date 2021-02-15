@@ -62,9 +62,234 @@
                         </as-tab>
                         <as-tab [for]="'Dashboard'" [title]="'Dashboard'">
                             <div class="row mt-2">
-                                <app-dashboard></app-dashboard>
-                                <google-chart [chartType]="'PieChart'" [dataPromise]="dataMap['PIE_DATA']" [options]="dataMap['PIE_OPTIONS']"></google-chart>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="item" *ngIf="loader">
+                                            <ngx-skeleton-loader count="10"></ngx-skeleton-loader>
+                                        </div>
+                                        <h5 class="card-header">Country</h5>
+                                        <ngx-charts-pie-chart [view]="view" [scheme]="countryScheme" [results]="country" [gradient]="gradient" [legend]="showLegend" [legendPosition]="legendPosition">
 
+                                        </ngx-charts-pie-chart>
+                                        <div class="sm-table">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Country Name</th>
+                                                        <th>Weight In Kg</th>
+                                                        <th>%</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let list of country">
+                                                        <td>{{list.name}}</td>
+                                                        <td>{{list.value}}</td>
+                                                        <td>{{list.pertotal}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="item" *ngIf="loader">
+                                            <ngx-skeleton-loader count="10"></ngx-skeleton-loader>
+                                        </div>
+                                        <h5 class="card-header">Month</h5>
+                                        <ngx-charts-pie-chart [view]="view" [scheme]="monthScheme" [results]="month" [gradient]="gradient" [legend]="showLegend" [legendPosition]="legendPosition">
+                                        </ngx-charts-pie-chart>
+                                        <div class="sm-table">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Month Name</th>
+                                                        <th>Weight In Kg</th>
+                                                        <th>%</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let list of month">
+                                                        <td>{{list.name}}</td>
+                                                        <td>{{list.value}}</td>
+                                                        <td>{{list.pertotal}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="item" *ngIf="loader">
+                                            <ngx-skeleton-loader count="10"></ngx-skeleton-loader>
+                                        </div>
+                                        <h5 class="card-header">Importer</h5>
+                                        <ngx-charts-bar-vertical [view]="view" [scheme]="importerScheme" [results]="importer" [gradient]="gradient" [legend]="showLegend" [legendPosition]="legendPosition">
+                                        </ngx-charts-bar-vertical>
+                                        <div class="sm-table">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Importer Name</th>
+                                                        <th>Weight In Kg</th>
+                                                        <th>%</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let list of importer">
+                                                        <td>{{list.name}}</td>
+                                                        <td>{{list.value}}</td>
+                                                        <td>{{list.pertotal}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="item" *ngIf="loader">
+                                            <ngx-skeleton-loader count="10"></ngx-skeleton-loader>
+                                        </div>
+                                        <h5 class="card-header">Exporter</h5>
+                                        <ngx-charts-pie-chart [view]="view" [scheme]="exporterScheme" [animations]="true" [results]="exporter" [gradient]="gradient" [legend]="showLegend" [legendPosition]="legendPosition">
+                                        </ngx-charts-pie-chart>
+                                        <div class="sm-table">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Exporter Name</th>
+                                                        <th>Weight In Kg</th>
+                                                        <th>%</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let list of exporter">
+                                                        <td>{{list.name}}</td>
+                                                        <td>{{list.value}}</td>
+                                                        <td>{{list.pertotal}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="item" *ngIf="loader">
+                                            <ngx-skeleton-loader count="10"></ngx-skeleton-loader>
+                                        </div>
+                                        <h5 class="card-header">Hs Code</h5>
+                                        <ngx-charts-pie-chart [view]="view" [scheme]="HsCodeScheme" [results]="hscode" [gradient]="gradient" [legend]="showLegend" [legendPosition]="legendPosition">
+                                        </ngx-charts-pie-chart>
+                                        <div class="sm-table">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Hs Code</th>
+                                                        <th>Weight In Kg</th>
+                                                        <th>%</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let list of hscode">
+                                                        <td>{{list.name}}</td>
+                                                        <td>{{list.value}}</td>
+                                                        <td>{{list.pertotal}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="item" *ngIf="loader">
+                                            <ngx-skeleton-loader count="10"></ngx-skeleton-loader>
+                                        </div>
+                                        <h5 class="card-header">Unit</h5>
+                                        <ngx-charts-pie-chart [view]="view" [scheme]="UnitScheme" [results]="unit" [gradient]="gradient" [legend]="showLegend" [legendPosition]="legendPosition">
+                                        </ngx-charts-pie-chart>
+                                        <div class="sm-table">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Unit Name</th>
+                                                        <th>Weight In Kg</th>
+                                                        <th>%</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let list of unit">
+                                                        <td>{{list.name}}</td>
+                                                        <td>{{list.value}}</td>
+                                                        <td>{{list.pertotal}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+
+                                    <div class="card">
+                                        <div class="item" *ngIf="loader">
+                                            <ngx-skeleton-loader count="10"></ngx-skeleton-loader>
+                                        </div>
+                                        <h5 class="card-header">Port</h5>
+                                        <ngx-charts-pie-chart [view]="view" [scheme]="PortScheme" [results]="port" [gradient]="gradient" [legend]="showLegend" [legendPosition]="legendPosition">
+                                        </ngx-charts-pie-chart>
+                                        <div class="sm-table">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Port Name</th>
+                                                        <th>Weight In Kg</th>
+                                                        <th>%</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let list of port">
+                                                        <td>{{list.name}}</td>
+                                                        <td>{{list.value}}</td>
+                                                        <td>{{list.pertotal}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="item" *ngIf="loader">
+                                            <ngx-skeleton-loader count="10"></ngx-skeleton-loader>
+                                        </div>
+                                        <h5 class="card-header">Notify</h5>
+                                        <ngx-charts-pie-chart [view]="view" [scheme]="PortScheme" [results]="notify" [gradient]="gradient" [legend]="showLegend" [legendPosition]="legendPosition">
+                                        </ngx-charts-pie-chart>
+                                        <div class="sm-table">
+                                            <table>
+                                                <thead>
+                                                    <tr>
+                                                        <th>Notify Name</th>
+                                                        <th>Weight In Kg</th>
+                                                        <th>%</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr *ngFor="let list of notify">
+                                                        <td>{{list.name}}</td>
+                                                        <td>{{list.value}}</td>
+                                                        <td>{{list.pertotal}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
                             </div>
                         </as-tab>
                         <as-tab [for]="'Importer Analysis'" [title]="'Importer Analysis'">
