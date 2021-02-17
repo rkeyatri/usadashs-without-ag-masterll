@@ -13,6 +13,9 @@ import { HeaderComponent } from './layouts/header/header.component';
 import { ImportsComponent } from './imports/imports.component';   
 import { NgApexchartsModule } from 'ng-apexcharts';   
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';  
+import { NgToggleModule } from 'ng-toggle-button'; 
+import { FilterPipe } from './helpers/filter.pipe';
+import { ImporterAnalysisComponent } from './importer-analysis/importer-analysis.component';
 @NgModule({
     declarations: [
         AppComponent,
@@ -20,7 +23,9 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
         MainComponent,
         HomeComponent, 
         HeaderComponent,
-        ImportsComponent 
+        ImportsComponent,
+        FilterPipe,
+        ImporterAnalysisComponent
     ], 
     imports: [
         CoreModule,  
@@ -29,7 +34,8 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
         AppRoutingModule, 
         NgxChartsModule, 
         NgApexchartsModule,
-        NgxSkeletonLoaderModule 
+        NgxSkeletonLoaderModule,
+        NgToggleModule,
     ],
     providers: [
     ],

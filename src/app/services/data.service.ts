@@ -32,7 +32,7 @@ export class DataService {
                 return {
                     imports: data.usaImportMasters,
                     meta: {
-                    total: data.totalcount,
+                    total: data.total,
                         pageIndex: data.pageIndex,                        
                         pageSize: data.pageSize 
                     },

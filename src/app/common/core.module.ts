@@ -5,8 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { ReplacePipe } from '../helpers/replace.pipe';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
-import { AuthService, AlertService, ApiService, DataService } from '../services';
-
+import { AuthService, AlertService, ApiService, DataService } from '../services'; 
 import { AsTableComponent } from './as-table/as-table.component';
 import { AlertComponent } from './alert/alert.component';
 import { TabsComponent } from './tabs/tabs.component';
@@ -14,7 +13,7 @@ import { TabComponent } from './tab/tab.component';
 import { PagerComponent } from './pager/pager.component';
 import { SearchBoxComponent } from './search/search-box.component'; 
 import { NgxChartsModule } from '@swimlane/ngx-charts';  
-
+import { NgToggleModule } from 'ng-toggle-button'; 
 @NgModule({
     declarations: [AsTableComponent, ReplacePipe, AlertComponent, TabsComponent, TabComponent, PagerComponent, SearchBoxComponent],
     imports: [
@@ -36,7 +35,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientModule 
+        HttpClientModule,
+        NgToggleModule
     ],
     providers: [
         AuthService,
